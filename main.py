@@ -10,17 +10,27 @@ def main():
         print("Camera error! Try CAMERA_ID = 0, 1, 2 in config.py")
         return
     
-    # FIX BLURRY CAMERA - Set these properties FIRST
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)   # Higher native res
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
-    cap.set(cv2.CAP_PROP_FPS, 30)
+    # Get the maximum resolution supported by the camera
+    max_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))  # Default width (e.g., 640, 1280)
+    max_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)) # Default height (e.g., 480, 720)
+    
+    # Adjustable resolution: set to max supported by the camera or custom
+    width = max_width  # Max resolution width
+    height = max_height # Max resolution height
+    
+    # Set the camera resolution to the desired width and height
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
+    
+    # Set camera properties for better quality
+    cap.set(cv2.CAP_PROP_FPS, 30)  # Set FPS
     cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)  # Manual exposure
     cap.set(cv2.CAP_PROP_EXPOSURE, -6)         # Faster shutter
-    cap.set(cv2.CAP_PROP_BRIGHTNESS, 150)      # Brighter
-    cap.set(cv2.CAP_PROP_CONTRAST, 120)        # Sharper
-    cap.set(cv2.CAP_PROP_SHARPNESS, 200)       # CRISP edges
+    cap.set(cv2.CAP_PROP_BRIGHTNESS, 150)      # Brighter image
+    cap.set(cv2.CAP_PROP_CONTRAST, 120)        # Sharper image
+    cap.set(cv2.CAP_PROP_SHARPNESS, 200)       # Crisp edges
     
-    # Get actual properties after setting
+    # Get actual properties after setting (to verify resolution)
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     fps = cap.get(cv2.CAP_PROP_FPS)
@@ -28,7 +38,7 @@ def main():
     
     detector = CrashDetector()
     
-    print("CRASH DETECTOR - Crystal Clear! 'q' to quit, 'd' toggle detection")
+    print("CRASH - Crystal Clear! 'q' to quit, 'd' toggle detection")
     detect_on = True
     fps_counter = 0
     start_time = time.time()
