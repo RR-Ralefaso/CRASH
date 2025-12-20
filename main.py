@@ -1,6 +1,6 @@
 import cv2
 import time
-from crash import CrashDetector
+from Crash import CrashDetector
 from config import CAMERA_ID, WINDOW_NAME
 
 def main():
