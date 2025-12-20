@@ -43,9 +43,9 @@ def main():
     detector = CrashDetector()
     
     # Open the file to log the start time (this can be done in outputting.py, too)
-    write_detection_output("Starting detection session.")
+    #write_detection_output("Starting detection session.")
     
-    print("CRASH DETECTOR - Crystal Clear! 'q' to quit, 'd' toggle detection")
+    print("Crystal Clear! 'q' to quit, 'd' toggle detection")
     detect_on = True
     fps_counter = 0
     start_time = time.time()
@@ -61,22 +61,15 @@ def main():
         if detect_on:
             # Resize ONLY for YOLO (not display)
             small_frame = cv2.resize(frame, (640, 480))
-            detections = detector.detect(small_frame)  # Assuming detect returns a list of detections
-            
+            annotated_small = detector.detect(small_frame)
             # Scale back up for display
-            display_frame = cv2.resize(detections['annotated_frame'], (width, height))
+            display_frame = cv2.resize(annotated_small, (width, height))
             
-            # Assuming `detections['objects']` contains the list of detected objects and their details
-            if detections['objects']:
-                for obj in detections['objects']:
-                    object_type = obj['type']  # e.g., "car", "bicycle", etc.
-                    coordinates = obj['bbox']  # e.g., [x1, y1, x2, y2] for the bounding box
-                    detection_info = f"Detected {object_type} at {coordinates}."
-                    
-                    # Log what the detector saw in the file
-                    write_detection_output(detection_info)
-            else:
-                write_detection_output("No objects detected.")
+            # Assuming the detector gives us a crash detected flag or information
+            detection_info = f"detected in frame at {time.strftime('%Y-%m-%d %H:%M:%S')}"
+            
+            # Log the detection result in the text file using the outputting.py module
+            #write_detection_output(detection_info)
         else:
             # Pure raw camera feed
             cv2.putText(display_frame, "RAW CAMERA (Press 'd' for detection)", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
