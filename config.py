@@ -1,15 +1,26 @@
 # config.py
 import os
 
-# Use the smaller, faster nano model - it's more reliable
-MODEL_PATH = 'yolo11n.pt'  # Use yolo8n.pt if yolo11n doesn't work
+# Model Configuration
+MODEL_PATH = 'yolo11n.pt'  # YOLOv11 nano model
 CONFIDENCE = 0.7
+
+# Camera Configuration
 WINDOW_NAME = 'CRASH DETECTOR'
-CAMERA_ID = 0  # Your system is using camera 0
+CAMERA_ID = 0 #change if camera sucks foo
+
+# YOLO Inference Settings
+YOLO_INPUT_SIZE = (640, 640)  # Standard YOLO input size
+
+# Directory Configuration
+LOG_DIR = "logs"
+SCREENSHOT_DIR = "screenshots"
+MODEL_DIR = "models"
 
 # Create directories if they don't exist
-LOG_DIR = "logs"
-os.makedirs(LOG_DIR, exist_ok=True)
+for directory in [LOG_DIR, SCREENSHOT_DIR, MODEL_DIR]:
+    os.makedirs(directory, exist_ok=True)
 
 print(f"[CONFIG] Using model: {MODEL_PATH}")
 print(f"[CONFIG] Camera ID: {CAMERA_ID}")
+print(f"[CONFIG] YOLO input size: {YOLO_INPUT_SIZE}")
